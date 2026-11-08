@@ -1,0 +1,39 @@
+﻿@model IEnumerable<_25DH110278_LTW.Models.Customer>
+
+@{
+    ViewBag.Title = "Danh sách Khách hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="bg-info" style="padding: 10px; border-radius: 4px;">QUẢN LÝ KHÁCH HÀNG</h2>
+
+<p>
+    @Html.ActionLink("Thêm mới khách hàng", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table table-bordered table-striped table-hover">
+    <tr class="bg-success">
+        <th>Họ và tên</th>
+        <th>Số điện thoại</th>
+        <th>Địa chỉ Email</th>
+        <th>Địa chỉ nhận hàng</th>
+        <th>Tài khoản</th>
+        <th>Thao tác</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.CustomerName)</td>
+            <td>@Html.DisplayFor(modelItem => item.CustomerPhone)</td>
+            <td>@Html.DisplayFor(modelItem => item.CustomerEmail)</td>
+            <td>@Html.DisplayFor(modelItem => item.CustomerAddress)</td>
+            <td>@Html.DisplayFor(modelItem => item.User.Username)</td>
+            <td>
+                @Html.ActionLink("Sửa", "Edit", new { id = item.CustomerID }, new { @class = "btn btn-warning btn-sm" })
+                @Html.ActionLink("Chi tiết", "Details", new { id = item.CustomerID }, new { @class = "btn btn-info btn-sm" })
+                @Html.ActionLink("Xóa", "Delete", new { id = item.CustomerID }, new { @class = "btn btn-danger btn-sm" })
+            </td>
+        </tr>
+    }
+</table>

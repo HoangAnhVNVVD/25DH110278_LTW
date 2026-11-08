@@ -1,0 +1,27 @@
+﻿@model _25DH110278_LTW.Models.Category
+
+@{
+    ViewBag.Title = "Cập nhật Danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="bg-primary text-white" style="padding: 10px; border-radius: 4px;">CẬP NHẬT DANH MỤC</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.HiddenFor(model => model.CategoryID)
+
+        @Html.Partial("PVCreateEditCategory", Model)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lưu thay đổi" class="btn btn-success" />
+                @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}

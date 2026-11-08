@@ -1,0 +1,89 @@
+﻿@model IEnumerable<_25DH110278_LTW.Models.ViewModel.CategoryStatsVM>
+
+@{
+    ViewBag.Title = "Thống kê hàng hóa";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 style="background-color: #dff0d8; color: #3c763d; padding: 12px; border-radius: 4px; font-weight: bold;">
+    THỐNG KÊ HÀNG HÓA TỪNG LOẠI
+</h2>
+
+<table class="table table-bordered table-striped" style="margin-top: 20px;">
+    <thead>
+        <tr style="background-color: #dff0d8; color: #2b542c;">
+            <th>LOẠI HÀNG</th>
+            <th>SỐ LƯỢNG</th>
+            <th>GIÁ CAO NHẤT</th>
+            <th>GIÁ THẤP NHẤT</th>
+            <th>GIÁ TRUNG BÌNH</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="font-weight: 500;">@item.CategoryName</td>
+                <td>@item.ProductCount</td>
+                <td>$@item.MaxPrice.ToString("N2")</td>
+                <td>$@item.MinPrice.ToString("N2")</td>
+                <td>$@item.AvgPrice.ToString("N2")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div style="margin-top: 15px; margin-bottom: 25px;">
+    <button type="button" class="btn btn-default" onclick="toggleChart()" style="border: 1px solid #ccc;">Xem biểu đồ</button>
+</div>
+
+<div id="chartSection" style="display: none; margin-top: 30px;">
+    <h2 style="background-color: #dff0d8; color: #3c763d; padding: 12px; border-radius: 4px; font-weight: bold;">
+        BIỂU ĐỒ THỐNG KÊ
+    </h2>
+    <div id="piechart" style="width: 100%; height: 500px;"></div>
+</div>
+
+@section scripts {
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Loại hàng');
+            data.addColumn('number', 'Số lượng');
+
+            data.addRows([
+                @foreach (var item in Model)
+                {
+                    <text>['@Html.Raw(item.CategoryName)', @item.ProductCount],</text>
+                }
+            ]);
+
+            var options = {
+                title: 'TỶ LỆ HÀNG HÓA',
+                titleTextStyle: {
+                    fontSize: 16,
+                    bold: true
+                },
+                is3D: false,
+                pieSliceText: 'percentage',
+                chartArea: { width: '80%', height: '80%' }
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }
+
+        function toggleChart() {
+            var section = document.getElementById("chartSection");
+            if (section.style.display === "none") {
+                section.style.display = "block";
+                drawChart();
+            } else {
+                section.style.display = "none";
+            }
+        }
+    </script>
+}

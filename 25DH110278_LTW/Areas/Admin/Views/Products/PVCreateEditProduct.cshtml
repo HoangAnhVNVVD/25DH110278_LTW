@@ -1,0 +1,44 @@
+﻿@model _25DH110278_LTW.Models.Product
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<div class="form-group">
+    <label class="control-label col-md-2">Danh mục</label>
+    <div class="col-md-10">
+        @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-md-2">Tên sản phẩm</label>
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-md-2">Mô tả sản phẩm</label>
+    <div class="col-md-10">
+        @Html.TextAreaFor(model => model.ProductDecription, new { @class = "form-control", rows = 4 })
+        @Html.ValidationMessageFor(model => model.ProductDecription, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-md-2">Đơn giá</label>
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.ProductPrice, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-md-2">Hình ảnh</label>
+    <div class="col-md-10">
+        <!-- Nút chọn file ảnh theo đúng Slide 36 -->
+        <input type="file" name="UploadImg" class="form-control" />
+        @Html.ValidationMessageFor(model => model.ProductImage, "", new { @class = "text-danger" })
+    </div>
+</div>

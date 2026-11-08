@@ -1,0 +1,29 @@
+﻿@model _25DH110278_LTW.Models.ViewModel.PersonalMenuVM
+
+<ul class="nav navbar-nav navbar-right">
+    <li>
+        <a href="@Url.Action("Index", "Cart")">
+            <span class="glyphicon glyphicon-shopping-cart"></span> Giỏ hàng
+            <span class="badge" style="background-color: #d9534f;">@(Model != null ? Model.CartCount : 0)</span>
+        </a>
+    </li>
+
+    @if (Model != null && Model.IsLoggedIn)
+    {
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-user"></span> Xin chào, @Model.Username <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Đơn hàng của tôi", "MyOrder", "Order")</li>
+                <li role="separator" class="divider"></li>
+                <li>@Html.ActionLink("Đăng xuất", "Logout", "Account")</li>
+            </ul>
+        </li>
+    }
+    else
+    {
+        <li>@Html.ActionLink("Đăng ký", "Register", "Account")</li>
+        <li>@Html.ActionLink("Đăng nhập", "Login", "Account")</li>
+    }
+</ul>

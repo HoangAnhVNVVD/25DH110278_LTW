@@ -1,0 +1,53 @@
+﻿@model PagedList.IPagedList<_25DH110278_LTW.Models.Product>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Danh mục: " + ViewBag.CategoryName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="bg-primary text-white" style="padding: 10px; border-radius: 4px;">
+    DANH MỤC: @ViewBag.CategoryName
+</h2>
+
+<div class="row" style="margin-top: 25px;">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-md-4 col-sm-6" style="margin-bottom: 25px;">
+                <div class="thumbnail" style="height: 380px; text-align: center; border: 1px solid #ddd; padding: 10px; border-radius: 6px;">
+                    <a href="@Url.Action("ProductDetail", "Home", new { id = item.ProductID })">
+                        <img src="@Url.Content(item.ProductImage ?? "~/Content/images/default.jpg")" alt="@item.ProductName" style="height: 180px; width: 100%; object-fit: contain;" />
+                    </a>
+                    <div class="caption">
+                        <h4 style="height: 40px; overflow: hidden; font-size: 15px;">
+                            <a href="@Url.Action("ProductDetail", "Home", new { id = item.ProductID })">@item.ProductName</a>
+                        </h4>
+                        <p style="color: #d9534f; font-weight: bold; font-size: 16px;">
+                            @item.ProductPrice.ToString("N0") đ
+                        </p>
+                        <p>
+                            <a href="@Url.Action("AddToCart", "Cart", new { id = item.ProductID, quantity = 1 })" class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-shopping-cart"></span> Mua ngay
+                            </a>
+                            <a href="@Url.Action("ProductDetail", "Home", new { id = item.ProductID })" class="btn btn-default btn-sm">Chi tiết</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-md-12">
+            <p class="alert alert-warning">Chưa có sản phẩm nào trong danh mục này.</p>
+        </div>
+    }
+</div>
+
+<div class="row text-center">
+    <div class="col-md-12">
+        @Html.PagedListPager(Model, page => Url.Action("ProductList", new { page, categoryId = Request.QueryString["categoryId"] }))
+    </div>
+</div>

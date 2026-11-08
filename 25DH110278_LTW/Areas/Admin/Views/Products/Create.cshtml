@@ -1,0 +1,26 @@
+﻿@model _25DH110278_LTW.Models.Product
+
+@{
+    ViewBag.Title = "Thêm mới Sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="bg-success text-white" style="padding: 10px; border-radius: 4px;">THÊM MỚI SẢN PHẨM</h2>
+
+<!-- Thêm enctype="multipart/form-data" theo Slide 36 -->
+@using (Html.BeginForm("Create", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.Partial("PVCreateEditProduct", Model)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Thêm mới" class="btn btn-primary" />
+                @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}

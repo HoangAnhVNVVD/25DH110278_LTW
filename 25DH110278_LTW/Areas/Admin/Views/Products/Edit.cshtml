@@ -1,0 +1,29 @@
+﻿@model _25DH110278_LTW.Models.Product
+
+@{
+    ViewBag.Title = "Cập nhật Sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="bg-primary text-white" style="padding: 10px; border-radius: 4px;">CẬP NHẬT SẢN PHẨM</h2>
+
+<!-- Thêm enctype="multipart/form-data" theo Slide 36 -->
+@using (Html.BeginForm("Edit", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.HiddenFor(model => model.ProductID)
+        @Html.HiddenFor(model => model.ProductImage)
+
+        @Html.Partial("PVCreateEditProduct", Model)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lưu thay đổi" class="btn btn-success" />
+                @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}

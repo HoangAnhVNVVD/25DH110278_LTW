@@ -1,0 +1,25 @@
+﻿@model _25DH110278_LTW.Models.ViewModel.HomeProductVM
+
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron" style="background-color: #f2f2f2; padding: 25px; margin-bottom: 25px; border-radius: 6px;">
+    <h2>Chào mừng đến với Cửa hàng MyStore!</h2>
+    <p class="lead">Mua sắm thiết bị công nghệ chính hãng với giá tốt nhất.</p>
+
+    @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <div class="form-group" style="width: 75%;">
+            @Html.TextBox("searchTerm", Model.SearchTerm, new { @class = "form-control", placeholder = "Tìm kiếm theo tên sản phẩm, mô tả hoặc danh mục...", style = "width: 100%;" })
+        </div>
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Tìm kiếm</button>
+    }
+</div>
+
+@Html.Partial("_PVFeatureProduct", Model.FeaturedProducts)
+
+<hr style="margin-top: 30px; margin-bottom: 30px;" />
+
+@Html.Partial("_PVNewProduct", Model.NewProducts)

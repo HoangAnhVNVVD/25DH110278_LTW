@@ -1,0 +1,44 @@
+﻿@model _25DH110278_LTW.Models.ViewModel.ProductSearchVM
+
+@{
+    ViewBag.Title = "Quản lý Sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="bg-primary text-white" style="padding: 10px; border-radius: 4px;">TÌM KIẾM VÀ QUẢN LÝ SẢN PHẨM</h2>
+
+<!-- Form tiêu chí tìm kiếm theo Slide 40, 44, 46 -->
+@using (Html.BeginForm("Index", "Products", FormMethod.Get))
+{
+    <div class="row" style="margin-bottom: 20px; background-color: #f8f9fa; padding: 15px; border-radius: 6px;">
+        <div class="col-md-3">
+            <label>Từ khóa tìm kiếm:</label>
+            @Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control", placeholder = "Tên, mô tả, danh mục..." })
+        </div>
+        <div class="col-md-2">
+            <label>Giá tối thiểu:</label>
+            @Html.TextBoxFor(m => m.MinPrice, new { @class = "form-control", type = "number", placeholder = "Từ giá..." })
+        </div>
+        <div class="col-md-2">
+            <label>Giá tối đa:</label>
+            @Html.TextBoxFor(m => m.MaxPrice, new { @class = "form-control", type = "number", placeholder = "Đến giá..." })
+        </div>
+        <div class="col-md-3">
+            <label>Sắp xếp theo:</label>
+            @Html.DropDownListFor(m => m.SortOrder, new SelectList(new[] {
+                new { Value = "", Text = "Mặc định (Tên A-Z)" },
+                new { Value = "name_desc", Text = "Tên (Z-A)" },
+                new { Value = "price_asc", Text = "Giá tăng dần" },
+                new { Value = "price_desc", Text = "Giá giảm dần" }
+            }, "Value", "Text", Model.SortOrder), new { @class = "form-control" })
+        </div>
+        <div class="col-md-2" style="margin-top: 25px;">
+            <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-search"></i> Tìm kiếm</button>
+        </div>
+    </div>
+}
+
+<hr />
+
+<!-- Gọi Partial View hiển thị danh sách sản phẩm theo Slide 40 -->
+@Html.Partial("PVListProduct", Model)

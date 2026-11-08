@@ -1,0 +1,16 @@
+﻿@model IEnumerable<_25DH110278_LTW.Models.Category>
+
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        Danh mục sản phẩm <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+        @if (Model != null)
+        {
+            foreach (var cat in Model)
+            {
+                <li>@Html.ActionLink(cat.CategoryName, "ProductList", "Home", new { categoryId = cat.CategoryID }, null)</li>
+            }
+        }
+    </ul>
+</li>

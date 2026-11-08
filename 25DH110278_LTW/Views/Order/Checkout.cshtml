@@ -1,0 +1,111 @@
+﻿@model _25DH110278_LTW.Models.ViewModel.CheckoutVM
+
+@{
+    ViewBag.Title = "Thanh toán đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="bg-primary text-white" style="padding: 10px; border-radius: 4px;">XÁC NHẬN VÀ ĐẶT HÀNG</h2>
+
+@using (Html.BeginForm("Checkout", "Order", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row" style="margin-top: 25px;">
+        <div class="col-md-6">
+            <div class="panel panel-info">
+                <div class="panel-heading"><h4 class="panel-title">1. Thông tin giao hàng</h4></div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Địa chỉ nhận hàng:</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.ShippingAddress, new { @class = "form-control", id = "shippingAddress", @readonly = "readonly" })
+                            <button type="button" class="btn btn-default btn-xs" style="margin-top: 5px;" onclick="enableAddressEdit()">Chỉnh sửa địa chỉ</button>
+                            @Html.ValidationMessageFor(m => m.ShippingAddress, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Hình thức giao hàng:</label>
+                        <div class="col-md-8">
+                            <div class="radio">
+                                <label><input type="radio" name="ShippingMethod" value="Giao hàng tiêu chuẩn" checked /> Giao hàng tiêu chuẩn (2-3 ngày)</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="ShippingMethod" value="Giao hàng hỏa tốc" /> Giao hàng hỏa tốc 24h</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-info">
+                <div class="panel-heading"><h4 class="panel-title">2. Phương thức thanh toán</h4></div>
+                <div class="panel-body">
+                    <div class="radio">
+                        <label><input type="radio" name="PaymentMethod" value="Tiền mặt" checked /> Thanh toán tiền mặt khi nhận hàng (COD)</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="PaymentMethod" value="Paypal" /> Thanh toán trực tuyến qua PayPal</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="PaymentMethod" value="Mua trước trả sau" /> Mua trước trả sau (Trả góp 0%)</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-success">
+                <div class="panel-heading"><h4 class="panel-title">3. Tóm tắt đơn hàng</h4></div>
+                <div class="panel-body">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th class="text-center">Số lượng</th>
+                                <th class="text-right">Đơn giá</th>
+                                <th class="text-right">Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.CartItems)
+                            {
+                                <tr>
+                                    <td>@item.ProductName</td>
+                                    <td class="text-center">@item.Quantity</td>
+                                    <td class="text-right">@item.UnitPrice.ToString("N0") đ</td>
+                                    <td class="text-right">@item.TotalPrice.ToString("N0") đ</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr style="font-size: 16px;">
+                                <td colspan="3" class="text-right" style="font-weight: bold;">Tổng thanh toán:</td>
+                                <td class="text-right" style="color: #d9534f; font-weight: bold; font-size: 18px;">
+                                    @Model.TotalAmount.ToString("N0") đ
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <div style="margin-top: 25px;">
+                        <input type="submit" value="Xác nhận Đặt hàng" class="btn btn-danger btn-block btn-lg" />
+                        @Html.ActionLink("Quay lại giỏ hàng", "Index", "Cart", null, new { @class = "btn btn-default btn-block", style = "margin-top: 10px;" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script type="text/javascript">
+        function enableAddressEdit() {
+            var addrInput = document.getElementById("shippingAddress");
+            addrInput.removeAttribute("readonly");
+            addrInput.focus();
+        }
+    </script>
+}
